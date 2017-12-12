@@ -85,7 +85,7 @@
   import dateFunc from './components/dateFunc'
   import moment from 'moment';
   import EventCard from './components/eventCard.vue';
-
+  import _ from 'lodash';
   export default {
     props : {
       events : { // events will be displayed on calendar
@@ -135,7 +135,8 @@
         this.currentMonth = firstDayOfMonth;
 
         let start = dateFunc.getMonthViewStartDate(firstDayOfMonth, this.firstDay);
-        let end = dateFunc.getMonthViewEndDate(firstDayOfMonth, this.firstDay);
+
+        let end = _.cloneDeep(start).add(6,'w').subtract(1, 'd');
 
         this.$emit('changeMonth', start, end, firstDayOfMonth)
       },
@@ -305,7 +306,7 @@
   .events-day{
     cursor: pointer;
     flex:1;
-    min-height: 112px;
+    min-height: 121px;
     overflow: hidden;
     text-overflow: ellipsis;
   .day-number{
