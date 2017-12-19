@@ -34952,10 +34952,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  methods: {
 	    goPrev: function goPrev() {
 	      var newMonth = (0, _moment2.default)(this.currentMonth).subtract(1, 'months').startOf('month');
+	      this.selectedMonth = newMonth;
 	      this.$emit('change', newMonth);
 	    },
 	    goNext: function goNext() {
 	      var newMonth = (0, _moment2.default)(this.currentMonth).add(1, 'months').startOf('month');
+	      this.selectedMonth = newMonth;
 	      this.$emit('change', newMonth);
 	    },
 	    selectMonth: function selectMonth(value) {
