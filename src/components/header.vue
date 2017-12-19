@@ -6,7 +6,7 @@
     </div>
     <div class="header-center">
       <span class="prev-month" @click.stop="goPrev">{{leftArrow}}</span>
-      <span class="title">{{title}}</span>
+        <picker  v-model="selectedMonth" @selected='selectMonth' dateFormat='YYYY年M月' :monthLabels='monthLabels'></picker>
       <span class="next-month" @click.stop="goNext">{{rightArrow}}</span>
     </div>
     <div class="header-right">
@@ -18,19 +18,21 @@
 <script type="text/babel">
   import dateFunc from './dateFunc'
   import moment from 'moment';
-
+  import picker from 'vue-monthly-picker'
   export default {
     props : {
       currentMonth : {},
       titleFormat  : {},
       firstDay     : {},
       monthNames   : {},
-      locale       : {}
+      locale       : {},
     },
     data () {
       return {
         leftArrow  : '<',
-        rightArrow : '>'
+        rightArrow : '>',
+        selectedMonth:moment().format('YYYY年M月'),
+        monthLabels:["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
       }
     },
     computed: {
@@ -47,11 +49,20 @@
       goNext () {
         var newMonth = moment(this.currentMonth).add(1, 'months').startOf('month');
         this.$emit('change', newMonth);
+      },
+      selectMonth(value){
+        this.$emit('change', value);
       }
+    },
+    components:{
+      picker
     }
   }
 </script>
 <style lang="scss">
+.vue-monthly-picker{flex:1;}
+.date-popover{position: absolute!important}
+.header-center{position: relative;display: flex;}
 .full-calendar-header{
   display: flex;
   align-items: center;
@@ -63,9 +74,11 @@
     text-align:center;
     .title{
       margin: 0 10px;
+      cursor: pointer;
     }
     .prev-month,.next-month{
       cursor: pointer;
+      flex:1;
     }
   }
 }
